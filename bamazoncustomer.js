@@ -12,10 +12,8 @@ var connection = mysql.createConnection({
 });
 
 function purchase() {
-  // query the database for all items being auctioned
   connection.query("SELECT * FROM products", function(err, results) {
     if (err) throw err;
-    // once you have the items, prompt the user for which they'd like to bid on
     inquirer
       .prompt([
         {
@@ -59,10 +57,17 @@ function purchase() {
 
         var total_price = chosenItem.price * chosenQuantity;
         console.log("Thank you for your purchase, Your grand total is $" + total_price)
+        updateQuantity(newItemQuantity);
       }
 
       });
   });
 }
+
+
+function updateQuantity(newQuantity) {
+  connection.query("UPDATE products SET stock_quantity")
+}
+
 
 purchase();
