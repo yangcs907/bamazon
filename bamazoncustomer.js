@@ -43,11 +43,8 @@ function purchase() {
           }
         }
         var chosenItemQuantity = chosenItem.stock_quantity;
-        console.log(chosenItemQuantity);
         var chosenQuantity = (answer.quantity);
-        console.log(chosenQuantity);
         var newItemQuantity = (chosenItemQuantity - chosenQuantity);
-        console.log(newItemQuantity);
 
         if (chosenQuantity > chosenItemQuantity) {
           console.log("Sorry, there aren't enough left in stock!");
@@ -75,11 +72,33 @@ function updateQuantity(newQuantity, item) {
     }
   ],
   function(err, results) {
-    if (err) throw err; }
-)
-purchase();
-};
+    if (err) throw err;
+    console.log("Stock quantity has been updated");
+    inquirer
+      .prompt({
+        name: "action",
+        type: "list",
+        message: "Would you like to make another purchase?",
+        choices: [
+          "Yes",
+          "No"
+        ]
+      })
+      .then(function(answer) {
+        switch (answer.action) {
+          case "Yes":
+            purchase();
+            break;
 
+          case "No":
+            console.log("Good bye, have a great day!")
+            process.exit(0);
+            break;
+        }
+      });
+  }
+)
+};
 
 
 purchase();
