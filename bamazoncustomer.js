@@ -57,17 +57,29 @@ function purchase() {
 
         var total_price = chosenItem.price * chosenQuantity;
         console.log("Thank you for your purchase, Your grand total is $" + total_price)
-        updateQuantity(newItemQuantity);
+        updateQuantity(newItemQuantity, chosenItem);
       }
 
       });
   });
 }
 
+function updateQuantity(newQuantity, item) {
+  connection.query("UPDATE products SET ? WHERE ?",
+  [
+    {
+      stock_quantity: newQuantity
+    },
+    {
+      item_id: item.item_id
+    }
+  ],
+  function(err, results) {
+    if (err) throw err; }
+)
+purchase();
+};
 
-function updateQuantity(newQuantity) {
-  connection.query("UPDATE products SET stock_quantity")
-}
 
 
 purchase();
