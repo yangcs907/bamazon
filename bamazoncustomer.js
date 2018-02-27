@@ -20,11 +20,11 @@ function purchase() {
           name: "choice",
           type: "rawlist",
           choices: function() {
-            var choiceArray = [];
+            var itemsForSale = [];
             for (var i = 0; i < results.length; i++) {
-              choiceArray.push(results[i].product_name);
+              itemsForSale.push(results[i].product_name);
             }
-            return choiceArray;
+            return itemsForSale;
           },
           message: "What product would you like to purchase?"
         },
