@@ -18,7 +18,7 @@ function purchase() {
       .prompt([
         {
           name: "choice",
-          type: "rawlist",
+          type: "list",
           choices: function() {
             var itemsForSale = [];
             for (var i = 0; i < results.length; i++) {
@@ -43,12 +43,12 @@ function purchase() {
           }
         }
         var chosenItemQuantity = chosenItem.stock_quantity;
-        var chosenQuantity = (answer.quantity);
+        var chosenQuantity = answer.quantity;
         var newItemQuantity = (chosenItemQuantity - chosenQuantity);
 
         if (chosenQuantity > chosenItemQuantity) {
           console.log("Sorry, there aren't enough left in stock!");
-          purchase();
+          newPurchase();
         }
         else if (chosenQuantity <= chosenItemQuantity) {
 
@@ -74,30 +74,34 @@ function updateQuantity(newQuantity, item) {
   function(err, results) {
     if (err) throw err;
     console.log("Stock quantity has been updated");
-    inquirer
-      .prompt({
-        name: "action",
-        type: "list",
-        message: "Would you like to make another purchase?",
-        choices: [
-          "Yes",
-          "No"
-        ]
-      })
-      .then(function(answer) {
-        switch (answer.action) {
-          case "Yes":
-            purchase();
-            break;
-
-          case "No":
-            console.log("Good bye, have a great day!")
-            process.exit(0);
-            break;
-        }
-      });
+    newPurchase();
   }
 )
+};
+
+function newPurchase() {
+  inquirer
+    .prompt({
+      name: "action",
+      type: "list",
+      message: "Would you like to make another purchase?",
+      choices: [
+        "Yes",
+        "No"
+      ]
+    })
+    .then(function(answer) {
+      switch (answer.action) {
+        case "Yes":
+          purchase();
+          break;
+
+        case "No":
+          console.log("Good bye, have a great day!")
+          process.exit(0);
+          break;
+      }
+    });
 };
 
 
